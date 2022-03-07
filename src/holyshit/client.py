@@ -1,7 +1,10 @@
-import aiohttp
 import asyncio
 import json
-from .exceptions import *
+
+import aiohttp
+
+from .exceptions import ContentUnavailable
+
 
 class _BaseClient:
     def __init__(self, *, session: aiohttp.ClientSession):
@@ -9,7 +12,7 @@ class _BaseClient:
         self._session = session
         self._endpoint = "https://holyshit.wtf/"
         self._session_owner = False
-        
+
     @classmethod
     async def create(cls):
         """Create a client without an existing aiohttp session"""
@@ -17,23 +20,31 @@ class _BaseClient:
         inst = cls(session=_session)
         inst._session_owner = True
         return inst
-        
+
     async def _get_response(self, path: str) -> str:
         """Get a response from the API"""
         async with self._session.get(f"{self._endpoint}/{path}") as r:
             content = await r.text()
             try:
-                return json.loads(content, strict=False).get("response", None) # allow control character
+                if data := json.loads(content, strict=False).get("response"):
+                    return data.strip()
+                else:
+                    return data
             except json.decoder.JSONDecodeError as e:
-                raise ContentUnavailable(f"The endpoint you're trying to access isn't returning a valid JSON response - got '{content}'") from e
-        
+                raise ContentUnavailable(
+                    f"The endpoint you're trying to access isn't returning a valid JSON response - got '{content}'"
+                ) from e
+
     async def _get_gif(self, path: str):
         """Get a GIF response"""
         return await self._get_response(f"gifs/{path}")
-    
+
     async def close(self):
-        return await self._session.close() if self._session and not self._session.closed and self._session_owner else False
-    
+        return (
+            await self._session.close() if self._session and not self._session.closed and self._session_owner else False
+        )
+
+
 class Client(_BaseClient):
     async def eightball(self):
         """Get a random Magic 8-Ball response"""
@@ -100,7 +111,7 @@ class Client(_BaseClient):
         return await self._get_gif("punch")
 
     async def slap(self):
-        """ Get a random URL to a slap GIF"""
+        """Get a random URL to a slap GIF"""
         return await self._get_gif("slap")
 
     async def stare(self):
