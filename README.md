@@ -36,7 +36,7 @@ async def slap(ctx: commands.Context, member: discord.Member):
     async with aiohttp.ClientSession() as session:
         client = Client(session=session)
         try:
-            slapt_img = await client.slap()
+            slap_img = await client.slap()
             await ctx.send(f"You slapped {member.mention}!\n{slap_img}")
         finally:
             await client.close()
