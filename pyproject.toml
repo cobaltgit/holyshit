@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "holyshit"
-version = "1.0.0"
+version = "1.0.1"
 description = "Asynchronous experimental wrapper for the holyshit.wtf API"
 authors = ["cobaltgit <criterion@chitco.co.uk>"]
 license = "MIT"

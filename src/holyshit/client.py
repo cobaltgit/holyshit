@@ -32,7 +32,7 @@ class _BaseClient:
         return await self._get_response(f"gifs/{path}")
     
     async def close(self):
-        return await self._session.close() if self._session and not self._session.closed else False
+        return await self._session.close() if self._session and not self._session.closed and self._session_owner else False
     
 class Client(_BaseClient):
     async def eightball(self):
