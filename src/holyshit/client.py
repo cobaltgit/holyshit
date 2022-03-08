@@ -23,17 +23,16 @@ class _BaseClient:
         """Get a response from the API"""
         if self._session.closed:
             raise ClosedSessionError("Cannot operate on a closed session")
-        async with self._session.get(f"{self._endpoint}/{path}") as r:
-            content = await r.text()
-            try:
+
+        try:
+            async with self._session.get(f"{self._endpoint}/{path}") as r:
+                content = await r.text()
                 if isinstance(data := json.loads(content, strict=False).get("response"), str):
                     return data.strip()
                 else:
-                    return data
-            except json.decoder.JSONDecodeError as e:
-                raise ContentUnavailable(
-                    f"The endpoint you're trying to access isn't returning a valid JSON response - got '{content}'"
-                ) from e
+                    raise ContentUnavailable("The endpoint you're trying to access has returned an invalid response")
+        except Exception as e:
+            raise ContentUnavailable("Failed to fetch content from endpoint") from e
 
     async def _get_gif(self, path: str):
         """Get a GIF response"""
