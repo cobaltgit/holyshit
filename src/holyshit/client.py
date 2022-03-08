@@ -3,7 +3,7 @@ import json
 
 import aiohttp
 
-from .exceptions import ContentUnavailable
+from .exceptions import ClosedSessionError, ContentUnavailable
 
 
 class _BaseClient:
@@ -23,10 +23,12 @@ class _BaseClient:
 
     async def _get_response(self, path: str) -> str:
         """Get a response from the API"""
+        if self._session.closed:
+            raise ClosedSessionError("Cannot operate on a closed session")
         async with self._session.get(f"{self._endpoint}/{path}") as r:
             content = await r.text()
             try:
-                if data := json.loads(content, strict=False).get("response"):
+                if isinstance(data := json.loads(content, strict=False).get("response"), str):
                     return data.strip()
                 else:
                     return data
