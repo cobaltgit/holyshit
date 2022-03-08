@@ -1,4 +1,3 @@
-import asyncio
 import json
 
 import aiohttp
@@ -8,7 +7,6 @@ from .exceptions import ClosedSessionError, ContentUnavailable
 
 class _BaseClient:
     def __init__(self, *, session: aiohttp.ClientSession):
-        self.loop = asyncio.get_event_loop()
         self._session = session
         self._endpoint = "https://holyshit.wtf/"
         self._session_owner = False
