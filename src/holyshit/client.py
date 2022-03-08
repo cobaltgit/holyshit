@@ -9,7 +9,7 @@ class _BaseClient:
     def __init__(self, *, session: aiohttp.ClientSession):
         self._session = session
         self._endpoint = "https://holyshit.wtf/"
-        self._session_owner = False
+        self._session_owner = False  # Indicates whether the client was initialised by the create classmethod
 
     @classmethod
     async def create(cls):
