@@ -6,9 +6,9 @@ from .exceptions import ClosedSessionError, ContentUnavailable
 
 
 class _BaseClient:
-    def __init__(self, *, session: aiohttp.ClientSession):
+    def __init__(self, *, session: aiohttp.ClientSession) -> None:
         self._session = session
-        self._endpoint = "https://holyshit.wtf/"
+        self._ENDPOINT = "https://holyshit.wtf/"
         self._session_owner = False  # Indicates whether the client was initialised by the create classmethod
 
     @classmethod
@@ -23,9 +23,8 @@ class _BaseClient:
         """Get a response from the API"""
         if self._session.closed:
             raise ClosedSessionError("Cannot operate on a closed session")
-
         try:
-            async with self._session.get(f"{self._endpoint}/{path}") as r:
+            async with self._session.get(f"{self._ENDPOINT}/{path}") as r:
                 content = await r.text()
                 if isinstance(data := json.loads(content, strict=False).get("response"), str):
                     return data.strip()
@@ -39,9 +38,8 @@ class _BaseClient:
         return await self._get_response(f"gifs/{path}")
 
     async def close(self):
-        return (
-            await self._session.close() if self._session and not self._session.closed and self._session_owner else False
-        )
+        if hasattr(self._session, "closed") and self._session_owner:
+            return await self._session.close()
 
 
 class Client(_BaseClient):
