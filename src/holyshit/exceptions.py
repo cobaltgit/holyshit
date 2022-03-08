@@ -1,6 +1,6 @@
 class ContentUnavailable(Exception):
-    pass
+    """Raises when fetching content fails or type is invalid."""
 
 
 class ClosedSessionError(Exception):
-    pass
+    """Raises when attempting to interact with a closed client instance."""
