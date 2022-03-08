@@ -30,14 +30,13 @@ async def slap(ctx: commands.Context, member: discord.Member):
         slap_img = await client.slap()
         await ctx.send(f"You slapped {member.mention}!\n{slap_img}")
     finally:
-        return await client.close()
+        await client.close()
+    # attempting to interact with the client beyond the close statement will raise an error
 
     # Specifying an aiohttp.ClientSession object
     async with aiohttp.ClientSession() as session:
         client = Client(session=session)
-        try:
-            slap_img = await client.slap()
-            await ctx.send(f"You slapped {member.mention}!\n{slap_img}")
-        finally:
-            await client.close()
+        slap_img = await client.slap()
+        await ctx.send(f"You slapped {member.mention}!\n{slap_img}")
+        # no need to use try...finally as we're within a context manager for the aiohttp session - will raise an error when attempting to interact with the client outside the context manager
 ```
