@@ -39,5 +39,5 @@ async def slap(ctx: commands.Context, member: discord.Member):
         slap_img = await client.slap()
         await ctx.send(f"You slapped {member.mention}!\n{slap_img}")
         # no need to use try...finally as we're within a context manager for the aiohttp session 
-        # will raise an error when attempting to interact with the client outside the context manager
+        # will raise an error when attempting to interact with the client outside the with block
 ```
