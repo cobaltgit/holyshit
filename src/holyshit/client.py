@@ -56,9 +56,9 @@ class Client(_BaseClient):
         """Get a random 1-word insult"""
         return await self._get_response("insults")
 
-    async def sixdigit(self) -> str:
+    async def sixdigit(self) -> int:
         """Get a random 6-digit number"""
-        return await self._get_response("6digit")
+        return int(await self._get_response("6digit"))
 
     async def pickupline(self) -> str:
         """Get a random pickup line"""
