@@ -5,6 +5,7 @@ from discord.ext import commands
 from holyshit import Client
 
 bot = commands.Bot(command_prefix=">", intents=discord.Intents.default())
+token = "..."
 
 
 @bot.command(name="slap")
@@ -24,3 +25,6 @@ async def kiss(self, ctx: commands.Context, member: discord.Member):
         kiss_img = await client.kiss()
 
     await ctx.send(f"You kissed {member.mention}!\n{kiss_img}")
+
+
+bot.run(TOKEN)
