@@ -9,7 +9,7 @@ TOKEN = "..."
 
 
 @bot.command(name="slap")
-async def slap(self, ctx: commands.Context, member: discord.Member):
+async def slap(ctx: commands.Context, member: discord.Member):
     client = await Client.create()
     try:
         slap_img = await client.slap()
@@ -19,7 +19,7 @@ async def slap(self, ctx: commands.Context, member: discord.Member):
 
 
 @bot.command(name="kiss")
-async def kiss(self, ctx: commands.Context, member: discord.Member):
+async def kiss(ctx: commands.Context, member: discord.Member):
     async with aiohttp.ClientSession() as session:
         client = Client(session=session)
         kiss_img = await client.kiss()
