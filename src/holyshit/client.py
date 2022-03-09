@@ -40,8 +40,8 @@ class _BaseClient:
         return await self._get_response(f"gifs/{path}")
 
     async def close(self) -> None:
-        """Close the client's HTTP session"""
-        if hasattr(self._session, "closed") and self._session_owner:
+        """Close the client's HTTP session if created by the create classmethod"""
+        if getattr(self._session, "closed") == False and self._session_owner:
             return await self._session.close()
 
 
