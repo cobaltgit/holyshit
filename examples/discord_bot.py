@@ -5,7 +5,7 @@ from discord.ext import commands
 from holyshit import Client
 
 bot = commands.Bot(command_prefix=">", intents=discord.Intents.default())
-token = "..."
+TOKEN = "..."
 
 
 @bot.command(name="slap")
