@@ -16,28 +16,4 @@ $ python3.8 -m pip install git+https://github.com/cobaltgit/holyshit # requires 
 
 ## Examples
 
-discord.py bot command
-```py
-from holyshit import Client
-...
-@bot.command(name="slap")
-async def slap(ctx: commands.Context, member: discord.Member):
-    # You can do this one of two ways:
-
-    # Creating a client without specifying an aiohttp.ClientSession object
-    client = await Client.create()
-    try: # context managers will be implemented soon, this is very rough
-        slap_img = await client.slap()
-        await ctx.send(f"You slapped {member.mention}!\n{slap_img}")
-    finally:
-        await client.close()
-    # attempting to interact with the client beyond the close statement will raise an error
-
-    # Specifying an aiohttp.ClientSession object
-    async with aiohttp.ClientSession() as session: # If you already have a session stored in a botvar, don't use it, unless you want your client to persist - if you want to do that, you could store the client in a botvar along with the aiohttp session
-        client = Client(session=session)
-        slap_img = await client.slap()
-        await ctx.send(f"You slapped {member.mention}!\n{slap_img}")
-        # no need to use try...finally as we're within a context manager for the aiohttp session 
-        # will raise an error when attempting to interact with the client outside the with block
-```
+See the [examples](https://github.com/cobaltgit/holyshit/examples) for some examples on how to use this library
