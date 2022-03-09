@@ -34,7 +34,7 @@ async def slap(ctx: commands.Context, member: discord.Member):
     # attempting to interact with the client beyond the close statement will raise an error
 
     # Specifying an aiohttp.ClientSession object
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession() as session: # If you already have a session stored in a botvar, don't use it, unless you want your client to persist - if you want to do that, you could store the client in a botvar along with the aiohttp session
         client = Client(session=session)
         slap_img = await client.slap()
         await ctx.send(f"You slapped {member.mention}!\n{slap_img}")
