@@ -31,7 +31,6 @@ class _BaseClient:
             "poke",
             "stare",
             "tickle",
-            "wave",
         )
         self._session = session
         self._session_owner = False  # Indicates whether the client was initialised by the create classmethod
