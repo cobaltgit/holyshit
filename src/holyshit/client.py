@@ -1,4 +1,5 @@
 import json
+import random
 
 import aiohttp
 
@@ -152,3 +153,7 @@ class Client(_BaseClient):
     async def wave(self) -> str:
         """Get a random URL to a wave GIF"""
         return await self._get_gif("wave")
+
+    async def random_gif(self) -> str:
+        """Get a random GIF URL"""
+        return await self._get_gif(random.choice(self._VALID_ENDPOINTS[4:]))
