@@ -10,3 +10,10 @@ class ClosedSessionError(Exception):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+
+
+class InvalidEndpointError(Exception):
+    """Raises when attempting to access a non-existent endpoint."""
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)

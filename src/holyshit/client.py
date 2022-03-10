@@ -2,15 +2,37 @@ import json
 
 import aiohttp
 
-from .exceptions import ClosedSessionError, ContentUnavailable
+from .exceptions import ClosedSessionError, ContentUnavailable, InvalidEndpointError
 
 
 class _BaseClient:
     """Base API client class and methods"""
 
     def __init__(self, *, session: aiohttp.ClientSession) -> None:
+        self._URL = "https://holyshit.wtf/"
+        self._VALID_ENDPOINTS = (
+            "insults",
+            "8ball",
+            "sixdigit",
+            "pickuplines",
+            "wave",
+            "hug",
+            "kiss",
+            "cuddle",
+            "slap",
+            "kill",
+            "lick",
+            "headpat",
+            "highfive",
+            "bite",
+            "punch",
+            "pout",
+            "poke",
+            "stare",
+            "tickle",
+            "wave",
+        )
         self._session = session
-        self._ENDPOINT = "https://holyshit.wtf/"
         self._session_owner = False  # Indicates whether the client was initialised by the create classmethod
 
     @classmethod
@@ -25,8 +47,11 @@ class _BaseClient:
         """Get a response from the API"""
         if self._session.closed:
             raise ClosedSessionError("Cannot operate on a closed session")
+        elif path not in self._VALID_ENDPOINTS:
+            raise InvalidEndpointError(f"Endpoint must be one of {self._VALID_ENDPOINTS}, got {path}")
+
         try:
-            async with self._session.get(f"{self._ENDPOINT}/{path}") as r:
+            async with self._session.get(f"{self._URL}/{path}") as r:
                 content = await r.text()
                 if isinstance(data := json.loads(content, strict=False).get("response"), str):
                     return data.strip()
