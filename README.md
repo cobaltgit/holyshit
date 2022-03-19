@@ -16,4 +16,4 @@ $ python3.8 -m pip install git+https://github.com/cobaltgit/holyshit # requires 
 
 ## Examples
 
-See the [examples](https://github.com/cobaltgit/holyshit/examples) for some examples on how to use this library
+See the [examples](https://github.com/cobaltgit/holyshit/tree/main/examples) for some examples on how to use this library
