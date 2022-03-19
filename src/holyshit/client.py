@@ -51,7 +51,7 @@ class _BaseClient:
 
     async def _get_response(self, path: str) -> str:
         """Get a response from the API"""
-        if self._session.closed:
+        if self._session is not None and getattr(self._session, "closed", True):
             raise ClosedSessionError("Cannot operate on a closed session")
         elif path not in self._VALID_ENDPOINTS:
             raise InvalidEndpointError(f"Endpoint must be one of {self._VALID_ENDPOINTS}, got {path}")
@@ -72,7 +72,7 @@ class _BaseClient:
 
     async def close(self) -> None:
         """Close the client's HTTP session if created by the create classmethod"""
-        if getattr(self._session, "closed") == False and self._session_owner:
+        if getattr(self._session, "closed", True) == False and self._session_owner:
             return await self._session.close()
 
 
