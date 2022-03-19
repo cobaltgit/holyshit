@@ -36,7 +36,7 @@ class _BaseClient:
         self._session_owner = False  # Indicates whether the client was initialised by the create classmethod
 
     @classmethod
-    async def create(cls):
+    def create(cls):
         """Create a client without an existing aiohttp session"""
         _session = aiohttp.ClientSession()
         inst = cls(session=_session)
