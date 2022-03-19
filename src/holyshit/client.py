@@ -43,6 +43,12 @@ class _BaseClient:
         inst._session_owner = True
         return inst
 
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        return await self.close()
+
     async def _get_response(self, path: str) -> str:
         """Get a response from the API"""
         if self._session.closed:
