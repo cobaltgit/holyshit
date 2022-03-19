@@ -10,12 +10,9 @@ TOKEN = "..."
 
 @bot.command(name="slap")
 async def slap(ctx: commands.Context, member: discord.Member):
-    client = await Client.create()
-    try:
+    async with Client.create() as client:
         slap_img = await client.slap()
         await ctx.send(f"You slapped {member.mention}!\n{slap_img}")
-    finally:
-        await client.close()
 
 
 @bot.command(name="kiss")
